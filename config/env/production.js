@@ -3,7 +3,7 @@
 module.exports = {
 	db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost')
 
-	|| 'mongodb://adi:password@ds011251.mlab.com:11251' + '/meanladwa',
+	|| 'mongodb://adi:password@ds011251.mlab.com:11251' + '/meanladwa' || 'mongodb://localhost/mean-dev',
 	assets: {
 		lib: {
 			css: [
