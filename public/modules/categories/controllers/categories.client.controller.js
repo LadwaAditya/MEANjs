@@ -1,28 +1,30 @@
 'use strict';
 
-angular.module('categories').controller('CategoriesController', ['$scope','$location',
-	function($scope,$location) {
+angular.module('categories').controller('CategoriesController', ['$scope','$location','Categories',
+	function($scope,$location,Categories) {
 
 		// Create new Category
 		$scope.create = function() {
-			// Redirect after save
-			$location.path('categories');
+			// Create new Category object
+			var category = new Categories ({
+				name: this.name,
+				description: this.description
+			});
 
-			// Clear form fields
-			$scope.name = '';
+			// Redirect after save
+			category.$save(function(response) {
+				$location.path('categories/' + response._id);
+
+				// Clear form fields
+				$scope.name = '';
+			}, function(errorResponse) {
+				$scope.error = errorResponse.data.message;
+			});
 		};
 
 		// Find a list of Categories
 		$scope.find = function() {
-			// hard coded data
-			$scope.categories = [{
-				'name': 'Beverages',
-				'description': 'Soft drinks, coffees, teas, beers, and ales'
-			},
-				{
-					'name': 'Condiments',
-					'description': 'Sweet and savory sauces, relishes, spreads, and seasonings'
-				}];
+			$scope.categories = Categories.query();
 		};
 	}
 ]);
